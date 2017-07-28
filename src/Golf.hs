@@ -1,5 +1,5 @@
 module Golf (
-  skips, localMaxima
+  skips, localMaxima, histogram
   ) where
 
 
@@ -38,3 +38,11 @@ localMaxima (x1:x2:[]) = []
 localMaxima (x1:x2:x3:xs)
   | (x2>x1) && (x2>x3) = x2 : localMaxima (x3:xs)
   | otherwise          = localMaxima (x2:x3:xs)
+
+
+-- Exercise 3
+-- write a function that takes a list of integers
+-- between [0,9] and outputs a histogram
+
+histogram :: [Integer] -> String
+histogram anything = "\n==========\n0123456789"
