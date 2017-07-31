@@ -13,11 +13,6 @@ demor cmd sresult = demort cmd (drop 6 sresult)
 
 imports = ["Prelude","Golf"]
 
-demoStrg :: String -> IO ()
-demoStrg cmd = do
-  result <- runInterpreter $ setImports imports >> interpret cmd (as :: String)
-  demor cmd (show result)
-
 demoStrs :: String -> IO ()
 demoStrs cmd = do
   result <- runInterpreter $ setImports imports >> interpret cmd (as :: [String])
@@ -54,5 +49,7 @@ main = do
   demoIntl "localMaxima [1,2,3,4,5]           "
 
   putStrLn "\nExercise 3"
-  demoStrg "histogram [1,1,1,5]               "
-  demoStrg "histogram [1,4,5,4,6,6,3,4,2,4,9] "
+  putStrLn "histogram [1,1,1,5]                =\n"
+  putStrLn (histogram [1,1,1,5])
+  putStrLn "histogram [1,4,5,4,6,6,3,4,2,4,9]  =\n"
+  putStrLn (histogram [1,4,5,4,6,6,3,4,2,4,9])

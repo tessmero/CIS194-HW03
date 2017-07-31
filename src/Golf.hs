@@ -44,5 +44,40 @@ localMaxima (x1:x2:x3:xs)
 -- write a function that takes a list of integers
 -- between [0,9] and outputs a histogram
 
+findMax :: [Integer] -> Integer
+findMax [] = 0
+findMax (x:[]) = x
+findMax (x:y:[])
+  | x > y      = x
+  | otherwise  = y
+findMax (x:y:zs) = findMax ((findMax [x,y]) : zs)
+
+countFreq :: [Integer] -> Integer -> Integer
+countFreq [] _ = 0
+countFreq (x:xs) y
+  | x == y     = 1 + (countFreq xs y)
+  | otherwise  = countFreq xs y
+
+histBinsi :: [Integer] -> Integer -> [Integer]
+histBinsi xs y
+  | y == 10    = []
+  | otherwise  = (countFreq xs y) : (histBinsi xs (y+1))
+
+histBins :: [Integer] -> [Integer]
+histBins xs = histBinsi xs 0
+
+histDrawRow :: [Integer] -> Integer -> String
+histDrawRow [] _ = ""
+histDrawRow (x:xs) min
+  | x >= min   = "*" ++ (histDrawRow xs min)
+  | otherwise  = " " ++ (histDrawRow xs min)
+
+histDrawi :: [Integer] -> Integer -> String
+histDrawi _ 0 = "==========\n0123456789"
+histDrawi binFreqs minFreq = (histDrawRow binFreqs minFreq) ++ "\n" ++ (histDrawi binFreqs (minFreq-1))
+
+histDraw :: [Integer] -> String
+histDraw binFreqs = histDrawi binFreqs (findMax binFreqs)
+
 histogram :: [Integer] -> String
-histogram anything = "\n==========\n0123456789"
+histogram xs = histDraw (histBins xs)
